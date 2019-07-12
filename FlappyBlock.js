@@ -87,12 +87,20 @@ function component(width, height, color, x, y, type) {
         this.x += this.speedX;
         this.y += this.speedY + this.gravitySpeed;
         this.hitBottom();
+    this.hitTop();
     }
     this.hitBottom = function() {
         var rockbottom = myGameArea.canvas.height - this.height;
         if (this.y > rockbottom) {
             this.y = rockbottom;
             this.gravitySpeed = 0;
+        }
+    }
+    this.hitTop = function() {
+      var rockTop = 0;
+        if (this.y <= rockTop) {
+            this.y = rockTop;
+            this.gravitySpeed = (-1 * this.gravitySpeed);
         }
     }
     this.crashWith = function(otherobj) {
@@ -117,7 +125,6 @@ function updateGameArea() {
     for (i = 0; i < myObstacles.length; i += 1) {
         if (myGamePiece.crashWith(myObstacles[i])) {
             myGameArea.stop();
-            console.log("boo");
             return;
         } 
     }
@@ -131,8 +138,8 @@ function updateGameArea() {
         minGap = 50;
         maxGap = 200;
         gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
-        myObstacles.push(new component(10, height, "green", x, 0));
-        myObstacles.push(new component(10, x - height - gap, "green", x, height + gap));
+        myObstacles.push(new component(30, height, "#8B4513", x, 0));
+        myObstacles.push(new component(30, x - height - gap, "#8B4513", x, height + gap));
     }
     for (i = 0; i < myObstacles.length; i += 1) {
         myObstacles[i].x += -1;
