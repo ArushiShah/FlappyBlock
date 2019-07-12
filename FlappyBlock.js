@@ -11,6 +11,7 @@ let content = `
 canvas {
     border:1px solid #d3d3d3;
     background-color: #f1f1f1;
+    //background-image: url(https://ak1.picdn.net/shutterstock/videos/1019931451/thumb/1.jpg);
 }
 </style>
 </head>
@@ -26,6 +27,7 @@ function startGame() {
     myScore = 0;
     myGamePiece = null;
     myGamePiece = new component(30, 30, "red", 10, 120);
+    //myGamePiece = new component(30, 30, "{insert image url}", 10, 120, "image");
     myGamePiece.gravity = 0.05;
     myScore = new component("30px", "Consolas", "black", 280, 40, "text");
     myGameArea.start();
@@ -51,6 +53,10 @@ var myGameArea = {
 
 function component(width, height, color, x, y, type) {
     this.type = type;
+    if (type == "image") {
+        this.image = new Image();
+        this.image.src = color;
+    }
     this.score = 0;
     this.width = width;
     this.height = height;
@@ -62,7 +68,12 @@ function component(width, height, color, x, y, type) {
     this.gravitySpeed = 0;
     this.update = function() {
         ctx = myGameArea.context;
-        if (this.type == "text") {
+        if (type == "image") {
+            ctx.drawImage(this.image, 
+                this.x, 
+                this.y,
+                this.width, this.height);
+        } else if (this.type == "text") {
             ctx.font = this.width + " " + this.height;
             ctx.fillStyle = color;
             ctx.fillText(this.text, this.x, this.y);
